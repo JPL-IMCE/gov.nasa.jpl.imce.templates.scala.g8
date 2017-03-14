@@ -3,7 +3,7 @@ sbtPlugin := false
 
 name := "$name$"
 
-description := "$description$"
+description := "$project_description$"
 
 moduleName := name.value
 
