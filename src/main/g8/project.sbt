@@ -11,16 +11,16 @@ organization := "$organization$"
 
 organizationName := "$organization_name$"
 
-homepage := Some(url(s"https://github.com/${organizationName.value}/${moduleName.value}"))
+homepage := Some(url(s"https://github.com/\${organizationName.value}/\${moduleName.value}"))
 
-organizationHomepage := Some(url(s"https://github.com/${organizationName.value}"))
+organizationHomepage := Some(url(s"https://github.com/\${organizationName.value}"))
 
 git.remoteRepo := "git@github.com/JPL-IMCE/gov.nasa.jpl.imce.profileGenerator.batch.git"
 
 // publish to bintray.com via: `sbt publish`
 publishTo := Some(
   "JPL-IMCE" at
-    s"https://api.bintray.com/content/jpl-imce/${organization.value}/${moduleName.value}/${version.value}")
+    s"https://api.bintray.com/content/jpl-imce/\${organization.value}/\${moduleName.value}/\${version.value}")
 
 scmInfo := Some(ScmInfo(
   browseUrl = url(s"https://github.jpl.nasa.gov/imce/gov.nasa.jpl.imce.ontologies.workflow"),
