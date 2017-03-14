@@ -132,8 +132,8 @@ lazy val core =
       resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg"),
 
       resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
-      scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
-      scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+      scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:\${baseDirectory.value}/project/supersafe.cfg",
+      scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:\${baseDirectory.value}/project/supersafe.cfg",
       scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
       scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
 
@@ -153,14 +153,14 @@ lazy val core =
         // Wipe any existing tests results directory and create a fresh one
         val resultsDir = testsResultDir.value
         if (resultsDir.exists) {
-          s.log.warn(s"# Deleting existing results directory: $resultsDir")
+          s.log.warn(s"# Deleting existing results directory: \$resultsDir")
           IO.delete(resultsDir)
         }
-        s.log.warn(s"# Creating results directory: $resultsDir")
+        s.log.warn(s"# Creating results directory: \$resultsDir")
         IO.createDirectory(resultsDir)
         require(
           resultsDir.exists && resultsDir.canWrite,
-          s"The created results directory should exist and be writeable: $resultsDir")
+          s"The created results directory should exist and be writeable: \$resultsDir")
 
       },
 
@@ -264,8 +264,8 @@ lazy val core =
 
         val files = IO.unzip(pas, ds_dir)
         s.log.warn(
-          s"=> Installed ${files.size} " +
-            s"files extracted from zip: $pas")
+          s"=> Installed \${files.size} " +
+            s"files extracted from zip: \$pas")
 
         val mdProperties = new java.util.Properties()
         IO.load(mdProperties, md_install_dir / "bin" / "magicdraw.properties")
@@ -276,7 +276,7 @@ lazy val core =
             .split(":")
             .map(md_install_dir / _)
             .toSeq
-        s.log.warn(s"# MD BOOT CLASSPATH: ${mdBoot.mkString("\n", "\n", "\n")}")
+        s.log.warn(s"# MD BOOT CLASSPATH: \${mdBoot.mkString("\n", "\n", "\n")}")
 
         val mdClasspath =
           mdProperties
@@ -284,7 +284,7 @@ lazy val core =
             .split(":")
             .map(md_install_dir / _)
             .toSeq
-        s.log.warn(s"# MD CLASSPATH: ${mdClasspath.mkString("\n", "\n", "\n")}")
+        s.log.warn(s"# MD CLASSPATH: \${mdClasspath.mkString("\n", "\n", "\n")}")
 
         val imceSetupProperties = IO.readLines(md_install_dir / "bin" / "magicdraw.imce.setup.sh")
 
@@ -297,7 +297,7 @@ lazy val core =
             .split("\\\\+:")
             .map(md_install_dir / _)
             .toSeq
-        s.log.warn(s"# IMCE BOOT: ${imceBoot.mkString("\n", "\n", "\n")}")
+        s.log.warn(s"# IMCE BOOT: \${imceBoot.mkString("\n", "\n", "\n")}")
 
         val imcePrefix =
           imceSetupProperties
@@ -308,21 +308,21 @@ lazy val core =
             .split("\\\\+:")
             .map(md_install_dir / _)
             .toSeq
-        s.log.warn(s"# IMCE CLASSPATH Prefix: ${imcePrefix.mkString("\n", "\n", "\n")}")
+        s.log.warn(s"# IMCE CLASSPATH Prefix: \${imcePrefix.mkString("\n", "\n", "\n")}")
 
         original.map { group =>
 
-          s.log.warn(s"# ${env.size} env properties")
+          s.log.warn(s"# \${env.size} env properties")
           env.keySet.toList.sorted.foreach { k =>
-            s.log.warn(s"env[$k]=${env.get(k)}")
+            s.log.warn(s"env[\$k]=\${env.get(k)}")
           }
           s.log.warn(s"# ------")
 
-          s.log.warn(s"# ${jOpts.size} java options")
+          s.log.warn(s"# \${jOpts.size} java options")
           s.log.warn(jOpts.mkString("\n"))
           s.log.warn(s"# ------")
 
-          s.log.warn(s"# ${jvmFlags.size} jvm flags")
+          s.log.warn(s"# \${jvmFlags.size} jvm flags")
           s.log.warn(jvmFlags.mkString("\n"))
           s.log.warn(s"# ------")
 
@@ -333,10 +333,10 @@ lazy val core =
           val in = Source.fromFile(md_install_dir.toPath.resolve("data/test.properties").toFile)
           for (line <- in.getLines) {
             if (line.startsWith("log4j.appender.R.File="))
-              out.println(s"log4j.appender.R.File=$tests_results_dir/tests.log")
+              out.println(s"log4j.appender.R.File=\$tests_results_dir/tests.log")
             else if (line.startsWith("log4j.appender.SO=")) {
               out.println(s"log4j.appender.SO=org.apache.log4j.RollingFileAppender")
-              out.println(s"log4j.appender.SO.File=$tests_results_dir/console.log")
+              out.println(s"log4j.appender.SO.File=\$tests_results_dir/console.log")
             }
             else
               out.println(line)
@@ -352,7 +352,7 @@ lazy val core =
               "-DLOCALCONFIG=false",
               "-DWINCONFIG=false",
               "-DHOME=" + md_install_dir.getAbsolutePath,
-              s"-Ddebug.properties=$testPropertiesFile",
+              s"-Ddebug.properties=\$testPropertiesFile",
               "-Ddebug.properties.file=imce.properties",
               "-DFL_FORCE_USAGE=true",
               "-DFL_SERVER_ADDRESS=cae-lic04.jpl.nasa.gov",
@@ -371,7 +371,7 @@ lazy val core =
               ("DYNAMIC_SCRIPTS_RESULTS_DIR" -> tests_results_dir.getAbsolutePath)
           )
 
-          s.log.warn(s"# working directory: $md_install_dir")
+          s.log.warn(s"# working directory: \$md_install_dir")
 
           group.copy(runPolicy = Tests.SubProcess(forkOptions))
         }
@@ -418,8 +418,8 @@ lazy val core =
             // Use unzipURL to download & extract
             val files = IO.unzip(zip, mdInstallDir)
             s.log.info(
-              s"=> created md.install.dir=$mdInstallDir with ${files.size} " +
-                s"files extracted from zip: ${zip.getName}")
+              s"=> created md.install.dir=\$mdInstallDir with \${files.size} " +
+                s"files extracted from zip: \${zip.getName}")
           }
 
           val mdDynamicScriptsDir = mdInstallDir / "dynamicScripts"
@@ -440,20 +440,20 @@ lazy val core =
           zs.foreach { zip =>
             val files = IO.unzip(zip, mdDynamicScriptsDir)
             s.log.info(
-              s"=> extracted ${files.size} DynamicScripts files from zip: ${zip.getName}")
+              s"=> extracted \${files.size} DynamicScripts files from zip: \${zip.getName}")
           }
 
           val imceSetup = mdInstallDir / "bin" / "magicdraw.imce.setup.sh"
           if (imceSetup.exists()) {
             val setup = sbt.Process(command = "/bin/bash", arguments = Seq[String](imceSetup.getAbsolutePath)).!
-            require(0 == setup, s"IMCE MD Setup error! ($setup)")
+            require(0 == setup, s"IMCE MD Setup error! (\$setup)")
             s.log.info(s"*** Executed bin/magicdraw.imce.setup.sh script")
           } else {
             s.log.info(s"*** No bin/magicdraw.imce.setup.sh script found!")
           }
         } else
           s.log.info(
-            s"=> use existing md.install.dir=$mdInstallDir")
+            s"=> use existing md.install.dir=\$mdInstallDir")
       },
 
       unmanagedJars in Compile := {
@@ -474,7 +474,7 @@ lazy val core =
 
         val allJars = mdLibJars ++ mdPluginLibJars ++ mdDynScLibJars ++ depJars ++ prev
 
-        s.log.info(s"=> Adding ${allJars.size} unmanaged jars")
+        s.log.info(s"=> Adding \${allJars.size} unmanaged jars")
 
         allJars
       },
@@ -519,7 +519,7 @@ def dynamicScriptsResourceSettings(projectName: String): Seq[Setting[_]] = {
     if (!f.exists) Seq()
     else Seq((f, name))
 
-  val QUALIFIED_NAME = "^[a-zA-Z][\\w_]*(\\.[a-zA-Z][\\w_]*)*$".r
+  val QUALIFIED_NAME = "^[a-zA-Z][\\w_]*(\\.[a-zA-Z][\\w_]*)*\$".r
 
   Seq(
     // the '*-resource.zip' archive will start from: 'dynamicScripts'
