@@ -40,7 +40,7 @@ object CredentialsSettings {
   /**
     * Get the value of either a system property or, if unset, an environment variable or, if unset, the empty string.
     *
-    * @param prop $variable
+    * @param prop \$variable
     * @return
     */
   def getCredentialProperty(prop: String)
@@ -55,7 +55,7 @@ object CredentialsSettings {
     * - 0x<hexadecimal>L
     * - <decimal>
     *
-    * @param prop $variable
+    * @param prop \$variable
     * @return
     */
   def lookupCredentialUnsignedLongProperty(prop: String)
@@ -71,7 +71,7 @@ object CredentialsSettings {
 
   /**
     * If set, converts the value of a system property or of an environment variable to an array of characters
-    * @param prop $variable
+    * @param prop \$variable
     * @return
     */
   def lookupCredentialCharArrayProperty(prop: String)
