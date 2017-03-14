@@ -1,0 +1,17 @@
+../../../target/
+boot/
+lib_managed/
+src_managed/
+project/plugins/project/
+local.*
+.idea/
+.cache
+.ensime*
+*.iml
+*.bak
+*.log
+*~
+*links.json
+project/project
+project/target
+gh-pages/
