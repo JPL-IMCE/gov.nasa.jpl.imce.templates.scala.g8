@@ -15,7 +15,7 @@ homepage := Some(url(s"https://github.com/\${organizationName.value}/\${moduleNa
 
 organizationHomepage := Some(url(s"https://github.com/\${organizationName.value}"))
 
-git.remoteRepo := "git@github.com/JPL-IMCE/gov.nasa.jpl.imce.profileGenerator.batch.git"
+git.remoteRepo := s"git@github.com/JPL-IMCE/\${name.value}.git"
 
 // publish to bintray.com via: `sbt publish`
 publishTo := Some(
