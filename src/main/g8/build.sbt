@@ -11,6 +11,8 @@ import gov.nasa.jpl.imce.sbt._
 import gov.nasa.jpl.imce.sbt.ProjectHelper._
 import java.io.File
 
+import com.typesafe.sbt.SettingsHelper
+
 //Speed up build time
 updateOptions := updateOptions.value.withCachedResolution(true)
 
@@ -73,20 +75,7 @@ lazy val core =
     .enablePlugins(IMCEReleasePlugin)
     .settings(dynamicScriptsResourceSettings("$name$"))
     .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
-    .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
-    .settings(
-      releaseProcess := Seq(
-      IMCEReleasePlugin.clearSentinel,
-      sbtrelease.ReleaseStateTransformations.checkSnapshotDependencies,
-      sbtrelease.ReleaseStateTransformations.inquireVersions,
-      IMCEReleasePlugin.extractStep,
-      IMCEReleasePlugin.setReleaseVersion,
-      IMCEReleasePlugin.runCompile,
-      sbtrelease.ReleaseStateTransformations.tagRelease,
-      sbtrelease.ReleaseStateTransformations.publishArtifacts,
-      sbtrelease.ReleaseStateTransformations.pushChanges,
-      IMCEReleasePlugin.successSentinel
-    ),
+    .settings(SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip")),
 
       IMCEKeys.licenseYearOrRange := "2016",
       IMCEKeys.organizationInfo := IMCEPlugin.Organizations.omf,
