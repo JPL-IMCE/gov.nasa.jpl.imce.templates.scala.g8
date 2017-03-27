@@ -3,9 +3,9 @@
 The IMCE Scala Template is a Giter8 template project meant to serve as the basis for new Scala projects within the IMCE build ecosystem.
 
 # Project Setup
-1.	Use the [Giter8 command ](http://www.foundweekends.org/giter8/setup.html) for generating a new Scala project:
+1.	Use the [new template command](http://www.scala-sbt.org/0.13/docs/sbt-new-and-Templates.html) for generating a new Scala project:
 ```
-$ g8 JPL-IMCE/gov.nasa.jpl.imce.templates.scala.g8.git
+$ sbt new JPL-IMCE/gov.nasa.jpl.imce.templates.scala.g8.git
 ```
 2.	Follow the instructions for the particular template. We use the [reverse domain name notation convention](https://en.wikipedia.org/wiki/Reverse_domain_name_notation) for naming projects. I.e., all project names should begin with gov.nasa.jpl…
 3.	Using IntelliJ or Eclipse, open the newly generated project and ensure it compiles successfully.
