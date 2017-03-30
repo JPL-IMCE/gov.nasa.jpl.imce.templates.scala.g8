@@ -75,7 +75,7 @@ lazy val core =
     .enablePlugins(IMCEReleasePlugin)
     .settings(dynamicScriptsResourceSettings("$name$"))
     .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
-    .settings(SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip")),
+    .settings(SettingsHelper.makeDeploymentSettings(Universal, packageBin in Universal, "zip"),
 
       IMCEKeys.licenseYearOrRange := "2016",
       IMCEKeys.organizationInfo := IMCEPlugin.Organizations.omf,
